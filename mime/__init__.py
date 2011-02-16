@@ -66,14 +66,36 @@ class GlobsFile(object):
 		weight, mime, glob = max(matches, key=lambda (weight, mime, glob): (weight, len(glob)))
 		return mime
 
+class IconsFile(object):
+	"""
+	/usr/share/mime/icons
+	/usr/share/mime/generic-icons
+	"""
+	def __init__(self, path):
+		self.__file = open(path, "r")
+		
+		self.__icons = {}
+		
+		self.__parse()
+		self.__file.close()
+	
+	def __parse(self):
+		for line in self.__file:
+			if line.endswith("\n"):
+				line = line[:-1]
+			
+			mime, icon = line.split(":")
+			self.__icons[mime] = icon
+	
+	def get(self, name):
+		return self.__icons.get(name)
 
 class MimeType(object):
 	
 	GLOBS = GlobsFile("/usr/share/mime/globs2")
+	ICONS = IconsFile("/usr/share/mime/generic-icons")
 	
 	def __init__(self, mime):
-		if mime not in self._mimes_map:
-			mime = DEFAULT_MIME_TYPE
 		self.__name = mime
 	
 	@classmethod
@@ -86,7 +108,7 @@ class MimeType(object):
 		pass
 	
 	def genericIcon(self):
-		pass
+		return self.ICONS.get(self.name())
 	
 	def icon(self):
 		return self.genericIcon() or self.name().replace("/", "-")
