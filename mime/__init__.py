@@ -14,8 +14,10 @@ shared mime database package.
 
 import os.path
 from fnmatch import fnmatch
+from xml.dom import minidom, XML_NAMESPACE
 
 DEFAULT_MIME_TYPE = "application/octet-stream"
+FREEDESKTOP_NS = "http://www.freedesktop.org/standards/shared-mime-info"
 
 class GlobsFile(object):
 	"""
@@ -92,20 +94,29 @@ class IconsFile(object):
 
 class MimeType(object):
 	
-	GLOBS = GlobsFile("/usr/share/mime/globs2")
-	ICONS = IconsFile("/usr/share/mime/generic-icons")
+	BASE = "/usr/share/mime/"
+	GLOBS = GlobsFile(BASE + "globs2")
+	ICONS = IconsFile(BASE + "generic-icons")
 	
 	def __init__(self, mime):
 		self.__name = mime
+		self.__comment = None
 	
 	@classmethod
 	def fromName(cls, name):
-		mime = self.GLOBS.match(name)
+		mime = cls.GLOBS.match(name)
 		if mime:
 			return cls(mime)
 	
-	def comment(self):
-		pass
+	def comment(self, lang="en"):
+		if self.__comment is None:
+			doc = minidom.parse(self.BASE + self.name() + ".xml")
+			for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
+				nslang = comment.getAttributeNS(XML_NAMESPACE, "lang") or "en"
+				if nslang == lang:
+					self.__comment = "".join([n.nodeValue for n in comment.childNodes]).strip()
+		
+		return self.__comment
 	
 	def genericIcon(self):
 		return self.ICONS.get(self.name())
