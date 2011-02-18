@@ -23,11 +23,11 @@ class MimeType(object):
 		try:
 			with OpenKey(HKEY_CLASSES_ROOT, ext) as key:
 				try:
-					mime, = QueryValueEx(key, "Content Type")
+					mime, _ = QueryValueEx(key, "Content Type")
 					instance = cls(mime)
 				except WindowsError:
 					instance = cls("application/x-windows-extension-%s" % (ext[1:]))
-				instance.__handlekey, = QueryValueEx(key, "(Default)")
+				instance.__handlekey, _ = QueryValueEx(key, "") # (Default)
 				return instance
 		except WindowsError:
 			pass
@@ -35,7 +35,7 @@ class MimeType(object):
 	def comment(self, lang="en"):
 		if self.__comment is None:
 			with OpenKey(HKEY_CLASSES_ROOT, self.__handlekey) as key:
-				self.__comment, = QueryValueEx(key, "(Default)")
+				self.__comment, _ = QueryValueEx(key, "") # (Default)
 		
 		return self.__comment
 	
