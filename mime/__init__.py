@@ -16,7 +16,6 @@ import os.path
 from fnmatch import fnmatch
 from xml.dom import minidom, XML_NAMESPACE
 
-DEFAULT_MIME_TYPE = "application/octet-stream"
 FREEDESKTOP_NS = "http://www.freedesktop.org/standards/shared-mime-info"
 
 class GlobsFile(object):
@@ -36,6 +35,7 @@ class GlobsFile(object):
 		for line in self.__file:
 			if line.startswith("#"): # comment
 				continue
+			
 			if line.endswith("\n"):
 				line = line[:-1]
 			
@@ -95,6 +95,8 @@ class IconsFile(object):
 class MimeType(object):
 	
 	BASE = "/usr/share/mime/"
+	DEFAULT_TEXT = "text/plain"
+	DEFAULT_BINARY = "application/octet-stream"
 	GLOBS = GlobsFile(BASE + "globs2")
 	ICONS = IconsFile(BASE + "generic-icons")
 	
@@ -114,7 +116,7 @@ class MimeType(object):
 			for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
 				nslang = comment.getAttributeNS(XML_NAMESPACE, "lang") or "en"
 				if nslang == lang:
-					self.__comment = "".join([n.nodeValue for n in comment.childNodes]).strip()
+					self.__comment = "".join(n.nodeValue for n in comment.childNodes).strip()
 		
 		return self.__comment
 	
@@ -123,6 +125,10 @@ class MimeType(object):
 	
 	def icon(self):
 		return self.genericIcon() or self.name().replace("/", "-")
+	
+	def isDefault(self):
+		name = self.name()
+		return name == DEFAULT_BINARY or name == DEFAULT_TEXT
 	
 	def name(self):
 		return self.__name
