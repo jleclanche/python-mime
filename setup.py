@@ -15,7 +15,7 @@ CLASSIFIERS = [
 
 setup(
 	name = "python-mime",
-	packages = ["mime"],
+	packages = ["mime", "mime.backends"],
 	author = "Jerome Leclanche",
 	author_email = "adys.wh@gmail.com",
 	classifiers = CLASSIFIERS,

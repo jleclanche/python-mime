@@ -1,2 +1,5 @@
 mime/__init__.py
+mime/backends/__init__.py
+mime/backends/linux.py
+mime/backends/windows.py
 setup.py
