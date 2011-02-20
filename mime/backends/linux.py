@@ -98,10 +98,6 @@ class MimeType(BaseMime):
 	GLOBS = GlobsFile(BASE + "globs2")
 	ICONS = IconsFile(BASE + "generic-icons")
 	
-	def __init__(self, mime):
-		self.__name = mime
-		self.__comment = None
-	
 	@classmethod
 	def fromName(cls, name):
 		mime = cls.GLOBS.match(name)
@@ -109,20 +105,17 @@ class MimeType(BaseMime):
 			return cls(mime)
 	
 	def comment(self, lang="en"):
-		if self.__comment is None:
+		if self._comment is None:
 			doc = minidom.parse(self.BASE + self.name() + ".xml")
 			for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
 				nslang = comment.getAttributeNS(XML_NAMESPACE, "lang") or "en"
 				if nslang == lang:
-					self.__comment = "".join(n.nodeValue for n in comment.childNodes).strip()
+					self._comment = "".join(n.nodeValue for n in comment.childNodes).strip()
 		
-		return self.__comment
+		return self._comment
 	
 	def genericIcon(self):
 		return self.ICONS.get(self.name())
-	
-	def name(self):
-		return self.__name
 	
 	def parent(self):
 		pass

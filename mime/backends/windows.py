@@ -5,10 +5,10 @@ from _winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
 from .base import BaseMime
 
 class MimeType(BaseMime):
-	def __init__(self, mime):
-		self.__name = mime
-		self.__comment = None
-	
+	"""
+	Windows implementation for MimeType
+	Uses the Windows Registry to query mimes
+	"""
 	@classmethod
 	def fromName(cls, name):
 		root, ext = splitext(name.lower())
@@ -29,17 +29,14 @@ class MimeType(BaseMime):
 			pass
 	
 	def comment(self, lang="en"):
-		if self.__comment is None:
+		if self._comment is None:
 			with OpenKey(HKEY_CLASSES_ROOT, self.__handlekey) as key:
-				self.__comment, _ = QueryValueEx(key, "") # (Default)
+				self._comment, _ = QueryValueEx(key, "") # (Default)
 		
-		return self.__comment
+		return self._comment
 	
 	def genericIcon(self):
 		pass
-	
-	def name(self):
-		return self.__name
 	
 	def parent(self):
 		pass
