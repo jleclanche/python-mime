@@ -14,6 +14,7 @@ shared mime database package.
 import os.path
 from fnmatch import fnmatch
 from xml.dom import minidom, XML_NAMESPACE
+from .base import BaseMime
 
 FREEDESKTOP_NS = "http://www.freedesktop.org/standards/shared-mime-info"
 
@@ -91,11 +92,9 @@ class IconsFile(object):
 	def get(self, name):
 		return self.__icons.get(name)
 
-class MimeType(object):
+class MimeType(BaseMime):
 	
 	BASE = "/usr/share/mime/"
-	DEFAULT_TEXT = "text/plain"
-	DEFAULT_BINARY = "application/octet-stream"
 	GLOBS = GlobsFile(BASE + "globs2")
 	ICONS = IconsFile(BASE + "generic-icons")
 	

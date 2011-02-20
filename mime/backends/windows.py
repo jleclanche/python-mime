@@ -2,13 +2,9 @@
 
 from os.path import splitext
 from _winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
+from .base import BaseMime
 
-
-class MimeType(object):
-	
-	DEFAULT_TEXT = "text/plain"
-	DEFAULT_BINARY = "application/octet-stream"
-	
+class MimeType(BaseMime):
 	def __init__(self, mime):
 		self.__name = mime
 		self.__comment = None
