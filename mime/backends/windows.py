@@ -38,13 +38,6 @@ class MimeType(BaseMime):
 	def genericIcon(self):
 		pass
 	
-	def icon(self):
-		return self.genericIcon() or self.name().replace("/", "-")
-	
-	def isDefault(self):
-		name = self.name()
-		return name == DEFAULT_BINARY or name == DEFAULT_TEXT
-	
 	def name(self):
 		return self.__name
 	

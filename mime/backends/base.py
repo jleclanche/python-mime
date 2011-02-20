@@ -10,3 +10,10 @@ class BaseMime(object):
 		if isinstance(other, BaseMimeType):
 			return self.name() == other.name()
 		return self.name() == other
+	
+	def icon(self):
+		return self.genericIcon() or self.name().replace("/", "-")
+	
+	def isDefault(self):
+		name = self.name()
+		return name == DEFAULT_BINARY or name == DEFAULT_TEXT
