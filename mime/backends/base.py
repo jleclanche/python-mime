@@ -15,6 +15,9 @@ class BaseMime(object):
 			return self.name() == other.name()
 		return self.name() == other
 	
+	def __repr__(self):
+		return "<MimeType: %s>" % (self.name())
+	
 	def icon(self):
 		return self.genericIcon() or self.name().replace("/", "-")
 	
