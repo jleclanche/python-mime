@@ -11,7 +11,7 @@ class BaseMime(object):
 		self._comment = None
 	
 	def __eq__(self, other):
-		if isinstance(other, BaseMimeType):
+		if isinstance(other, BaseMime):
 			return self.name() == other.name()
 		return self.name() == other
 	
