@@ -11,7 +11,6 @@ update-mime-database command, which is provided by the freedesktop.org
 shared mime database package.
 """
 
-import os.path
 from fnmatch import fnmatch
 from xml.dom import minidom, XML_NAMESPACE
 from .base import BaseMime
