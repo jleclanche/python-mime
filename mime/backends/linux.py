@@ -33,6 +33,13 @@ def getFiles(name):
 			ret.append(path)
 	return ret
 
+def getMimeFile(name):
+	for dir in XDG_DATA_DIRS:
+		type, subtype = name.split("/")
+		path = os.path.join(dir, "mime", type, subtype + ".xml")
+		if os.path.exists(path):
+			return path
+
 class GlobsFile(object):
 	"""
 	/usr/share/mime/globs2
@@ -119,7 +126,7 @@ class MimeType(BaseMime):
 	
 	def comment(self, lang="en"):
 		if self._comment is None:
-			doc = minidom.parse(self.BASE + self.name() + ".xml")
+			doc = minidom.parse(getMimeFile(self.name()))
 			for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
 				nslang = comment.getAttributeNS(XML_NAMESPACE, "lang") or "en"
 				if nslang == lang:
