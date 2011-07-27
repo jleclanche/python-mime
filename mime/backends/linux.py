@@ -127,6 +127,21 @@ class MimeType(BaseMime):
 		if mime:
 			return cls(mime)
 	
+	def aliases(self):
+		if not self._aliases:
+			files = getMimeFiles(self.name())
+			if not files:
+				return
+			
+			for file in files:
+				doc = minidom.parse(file)
+				for node in doc.documentElement.getElementsByTagName("alias"):
+					alias = node.getAttribute("type")
+					if alias not in self._aliases:
+						self._aliases.append(alias)
+		
+		return self._aliases
+	
 	def comment(self, lang="en"):
 		if lang not in self._comment:
 			files = getMimeFiles(self.name())
