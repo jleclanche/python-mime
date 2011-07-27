@@ -57,8 +57,8 @@ class AliasesFile(object):
 				if line.endswith("\n"):
 					line = line[:-1]
 				
-				mime, icon = line.split(" ")
-				self.__aliases[mime] = icon
+				mime, alias = line.split(" ")
+				self.__aliases[mime] = alias
 	
 	def get(self, name):
 		return self.__aliases.get(name)
