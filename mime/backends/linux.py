@@ -43,6 +43,31 @@ def getMimeFiles(name):
 	
 	return paths
 
+
+class AliasesFile(object):
+	"""
+	/usr/share/mime/aliases
+	"""
+	def __init__(self):
+		self.__aliases = {}
+	
+	def parse(self, path):
+		with open(path, "r") as file:
+			for line in file:
+				if line.endswith("\n"):
+					line = line[:-1]
+				
+				mime, icon = line.split(" ")
+				self.__aliases[mime] = icon
+	
+	def get(self, name):
+		return self.__aliases.get(name)
+
+ALIASES = AliasesFile()
+for f in getFiles("aliases"):
+	ALIASES.parse(f)
+
+
 class GlobsFile(object):
 	"""
 	/usr/share/mime/globs2
@@ -141,6 +166,9 @@ class MimeType(BaseMime):
 						self._aliases.append(alias)
 		
 		return self._aliases
+	
+	def aliasOf(self):
+		return ALIASES.get(self.name())
 	
 	def comment(self, lang="en"):
 		if lang not in self._comment:
