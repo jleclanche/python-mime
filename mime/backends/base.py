@@ -8,7 +8,7 @@ class BaseMime(object):
 	
 	def __init__(self, mime):
 		self.__name = mime
-		self._comment = None
+		self._comment = {}
 	
 	def __eq__(self, other):
 		if isinstance(other, BaseMime):

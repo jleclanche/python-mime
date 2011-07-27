@@ -128,7 +128,7 @@ class MimeType(BaseMime):
 			return cls(mime)
 	
 	def comment(self, lang="en"):
-		if self._comment is None:
+		if lang not in self._comment:
 			files = getMimeFiles(self.name())
 			if not files:
 				return
@@ -138,10 +138,10 @@ class MimeType(BaseMime):
 				for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
 					nslang = comment.getAttributeNS(XML_NAMESPACE, "lang") or "en"
 					if nslang == lang:
-						self._comment = "".join(n.nodeValue for n in comment.childNodes).strip()
+						self._comment[lang] = "".join(n.nodeValue for n in comment.childNodes).strip()
 						break
 		
-		return self._comment
+		return self._comment[lang]
 	
 	def genericIcon(self):
 		return ICONS.get(self.name())
