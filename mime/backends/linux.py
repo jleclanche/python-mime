@@ -126,7 +126,10 @@ class MimeType(BaseMime):
 	
 	def comment(self, lang="en"):
 		if self._comment is None:
-			doc = minidom.parse(getMimeFile(self.name()))
+			file = getMimeFile(self.name())
+			if not file:
+				return
+			doc = minidom.parse(file)
 			for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
 				nslang = comment.getAttributeNS(XML_NAMESPACE, "lang") or "en"
 				if nslang == lang:
