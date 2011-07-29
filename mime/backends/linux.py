@@ -184,7 +184,8 @@ class MimeType(BaseMime):
 						self._comment[lang] = "".join(n.nodeValue for n in comment.childNodes).strip()
 						break
 		
-		return self._comment[lang]
+		if lang in self._comment:
+			return self._comment[lang]
 	
 	def genericIcon(self):
 		return ICONS.get(self.name())
