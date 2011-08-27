@@ -144,8 +144,33 @@ for f in getFiles("generic-icons"):
 	ICONS.parse(f)
 
 
+class SubclassesFile(object):
+	"""
+	/usr/share/mime/subclasses
+	"""
+	def __init__(self):
+		self.__subclasses = {}
+
+	def parse(self, path):
+		with open(path, "r") as file:
+			for line in file:
+				if line.endswith("\n"):
+					line = line[:-1]
+
+				mime, subclass = line.split(" ")
+				if mime not in self.__subclasses:
+					self.__subclasses = []
+				self.__subclasses[mime].append(subclass)
+
+	def get(self, name):
+		return self.__subclasses.get(name)
+
+SUBCLASSES = SubclassesFile()
+for f in getFiles("subclasses"):
+	SUBCLASSES.parse(f)
+
 class MimeType(BaseMime):
-	
+
 	@staticmethod
 	def installPackage(package, base=os.path.join(XDG_DATA_HOME, "mime")):
 		from shutil import copyfile
@@ -193,12 +218,12 @@ class MimeType(BaseMime):
 					if nslang == lang:
 						self._comment[lang] = "".join(n.nodeValue for n in comment.childNodes).strip()
 						break
-		
+
 		if lang in self._comment:
 			return self._comment[lang]
-	
+
 	def genericIcon(self):
 		return ICONS.get(self.name())
-	
-	def parent(self):
-		pass
+
+	def subClassOf(self):
+		return SUBCLASSES.get(self.name())
