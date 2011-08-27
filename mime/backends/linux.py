@@ -202,7 +202,7 @@ class MimeType(BaseMime):
 
 		return self._aliases
 
-	def aliasOf(self):
+	def alias(self):
 		return ALIASES.get(self.name())
 
 	def comment(self, lang="en"):
