@@ -9,6 +9,7 @@ def main():
 	assert mime.comment(lang="fr") == "document texte brut"
 	assert mime.type() == "text"
 	assert mime.subtype() == "plain"
+	assert mime.genericMime() == "text/x-generic"
 
 	mime = MimeType("text/x-lua")
 	assert mime.comment() == "Lua script"

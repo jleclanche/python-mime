@@ -19,6 +19,9 @@ class BaseMime(object):
 	def __repr__(self):
 		return "<MimeType: %s>" % (self.name())
 
+	def genericMime(self):
+		return self.__class__("%s/x-generic" % (self.type()))
+
 	def icon(self):
 		return self.genericIcon() or self.name().replace("/", "-")
 
