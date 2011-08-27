@@ -51,6 +51,9 @@ class AliasesFile(object):
 	def __init__(self):
 		self._keys = {}
 
+	def __repr__(self):
+		return self._keys.__repr__()
+
 	def parse(self, path):
 		with open(path, "r") as file:
 			for line in file:
@@ -127,6 +130,9 @@ class IconsFile(object):
 	def __init__(self):
 		self._keys = {}
 
+	def __repr__(self):
+		return self._keys.__repr__()
+
 	def parse(self, path):
 		with open(path, "r") as file:
 			for line in file:
@@ -150,6 +156,9 @@ class SubclassesFile(object):
 	"""
 	def __init__(self):
 		self._keys = {}
+
+	def __repr__(self):
+		return self._keys.__repr__()
 
 	def parse(self, path):
 		with open(path, "r") as file:
