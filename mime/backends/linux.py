@@ -40,7 +40,7 @@ def getMimeFiles(name):
 		path = os.path.join(dir, "mime", type, subtype + ".xml")
 		if os.path.exists(path):
 			paths.append(path)
-	
+
 	return paths
 
 
@@ -50,16 +50,16 @@ class AliasesFile(object):
 	"""
 	def __init__(self):
 		self.__aliases = {}
-	
+
 	def parse(self, path):
 		with open(path, "r") as file:
 			for line in file:
 				if line.endswith("\n"):
 					line = line[:-1]
-				
+
 				mime, alias = line.split(" ")
 				self.__aliases[mime] = alias
-	
+
 	def get(self, name):
 		return self.__aliases.get(name)
 
@@ -75,42 +75,42 @@ class GlobsFile(object):
 	def __init__(self):
 		self.__matches = []
 		self.__literals = {}
-	
+
 	def parse(self, path):
 		with open(path, "r") as file:
 			for line in file:
 				if line.startswith("#"): # comment
 					continue
-				
+
 				if line.endswith("\n"):
 					line = line[:-1]
-				
+
 				weight, _, line = line.partition(":")
 				mime, _, line = line.partition(":")
 				glob, _, line = line.partition(":")
 				flags, _, line = line.partition(":")
 				flags = flags and flags.split(",") or []
-				
+
 				self.__matches.append((int(weight), mime, glob, flags))
-				
+
 				if "*" not in glob and "?" not in glob and "[" not in glob:
 					self.__literals[glob] = len(self.__matches)
-	
+
 	def match(self, name):
 		if name in self.__literals:
 			return self.__matches[self.__literals[name]][1]
-		
+
 		matches = []
 		for weight, mime, glob, flags in self.__matches:
 			if fnmatch(name, glob):
 				matches.append((weight, mime, glob))
-			
+
 			elif "cs" not in flags and fnmatch(name.lower(), glob):
 				matches.append((weight, mime, glob))
-		
+
 		if not matches:
 			return ""
-		
+
 		weight, mime, glob = max(matches, key=lambda (weight, mime, glob): (weight, len(glob)))
 		return mime
 
@@ -126,16 +126,16 @@ class IconsFile(object):
 	"""
 	def __init__(self):
 		self.__icons = {}
-	
+
 	def parse(self, path):
 		with open(path, "r") as file:
 			for line in file:
 				if line.endswith("\n"):
 					line = line[:-1]
-				
+
 				mime, icon = line.split(":")
 				self.__icons[mime] = icon
-	
+
 	def get(self, name):
 		return self.__icons.get(name)
 
@@ -159,7 +159,7 @@ class SubclassesFile(object):
 
 				mime, subclass = line.split(" ")
 				if mime not in self.__subclasses:
-					self.__subclasses = []
+					self.__subclasses[mime] = []
 				self.__subclasses[mime].append(subclass)
 
 	def get(self, name):
@@ -180,37 +180,37 @@ class MimeType(BaseMime):
 			os.makedirs(path)
 		copyfile(package, os.path.join(path, os.path.basename(package)))
 		Popen(["update-mime-database", base])
-	
+
 	@classmethod
 	def fromName(cls, name):
 		mime = GLOBS.match(name)
 		if mime:
 			return cls(mime)
-	
+
 	def aliases(self):
 		if not self._aliases:
 			files = getMimeFiles(self.name())
 			if not files:
 				return
-			
+
 			for file in files:
 				doc = minidom.parse(file)
 				for node in doc.documentElement.getElementsByTagName("alias"):
 					alias = node.getAttribute("type")
 					if alias not in self._aliases:
 						self._aliases.append(alias)
-		
+
 		return self._aliases
-	
+
 	def aliasOf(self):
 		return ALIASES.get(self.name())
-	
+
 	def comment(self, lang="en"):
 		if lang not in self._comment:
 			files = getMimeFiles(self.name())
 			if not files:
 				return
-			
+
 			for file in files:
 				doc = minidom.parse(file)
 				for comment in doc.documentElement.getElementsByTagNameNS(FREEDESKTOP_NS, "comment"):
