@@ -73,8 +73,8 @@ class GlobsFile(object):
 	/usr/share/mime/globs2
 	"""
 	def __init__(self):
-		self.__matches = []
-		self.__literals = {}
+		self._matches = []
+		self._literals = {}
 
 	def parse(self, path):
 		with open(path, "r") as file:
@@ -91,17 +91,17 @@ class GlobsFile(object):
 				flags, _, line = line.partition(":")
 				flags = flags and flags.split(",") or []
 
-				self.__matches.append((int(weight), mime, glob, flags))
+				self._matches.append((int(weight), mime, glob, flags))
 
 				if "*" not in glob and "?" not in glob and "[" not in glob:
-					self.__literals[glob] = len(self.__matches)
+					self._literals[glob] = len(self._matches)
 
 	def match(self, name):
-		if name in self.__literals:
-			return self.__matches[self.__literals[name]][1]
+		if name in self._literals:
+			return self._matches[self._literals[name]][1]
 
 		matches = []
-		for weight, mime, glob, flags in self.__matches:
+		for weight, mime, glob, flags in self._matches:
 			if fnmatch(name, glob):
 				matches.append((weight, mime, glob))
 
