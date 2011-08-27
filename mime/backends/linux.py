@@ -162,8 +162,8 @@ class SubclassesFile(object):
 					self.__subclasses[mime] = []
 				self.__subclasses[mime].append(subclass)
 
-	def get(self, name):
-		return self.__subclasses.get(name)
+	def get(self, name, default=None):
+		return self.__subclasses.get(name, default)
 
 SUBCLASSES = SubclassesFile()
 for f in getFiles("subclasses"):
@@ -226,4 +226,4 @@ class MimeType(BaseMime):
 		return ICONS.get(self.name())
 
 	def subClassOf(self):
-		return SUBCLASSES.get(self.name())
+		return [MimeType(mime) for mime in SUBCLASSES.get(self.name(), [])]
