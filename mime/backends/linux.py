@@ -49,7 +49,7 @@ class AliasesFile(object):
 	/usr/share/mime/aliases
 	"""
 	def __init__(self):
-		self.__aliases = {}
+		self._keys = {}
 
 	def parse(self, path):
 		with open(path, "r") as file:
@@ -58,10 +58,10 @@ class AliasesFile(object):
 					line = line[:-1]
 
 				mime, alias = line.split(" ")
-				self.__aliases[mime] = alias
+				self._keys[mime] = alias
 
 	def get(self, name):
-		return self.__aliases.get(name)
+		return self._keys.get(name)
 
 ALIASES = AliasesFile()
 for f in getFiles("aliases"):
@@ -125,7 +125,7 @@ class IconsFile(object):
 	/usr/share/mime/generic-icons
 	"""
 	def __init__(self):
-		self.__icons = {}
+		self._keys = {}
 
 	def parse(self, path):
 		with open(path, "r") as file:
@@ -134,10 +134,10 @@ class IconsFile(object):
 					line = line[:-1]
 
 				mime, icon = line.split(":")
-				self.__icons[mime] = icon
+				self._keys[mime] = icon
 
 	def get(self, name):
-		return self.__icons.get(name)
+		return self._keys.get(name)
 
 ICONS = IconsFile()
 for f in getFiles("generic-icons"):
@@ -149,7 +149,7 @@ class SubclassesFile(object):
 	/usr/share/mime/subclasses
 	"""
 	def __init__(self):
-		self.__subclasses = {}
+		self._keys = {}
 
 	def parse(self, path):
 		with open(path, "r") as file:
@@ -158,12 +158,12 @@ class SubclassesFile(object):
 					line = line[:-1]
 
 				mime, subclass = line.split(" ")
-				if mime not in self.__subclasses:
-					self.__subclasses[mime] = []
-				self.__subclasses[mime].append(subclass)
+				if mime not in self._keys:
+					self._keys[mime] = []
+				self._keys[mime].append(subclass)
 
 	def get(self, name, default=None):
-		return self.__subclasses.get(name, default)
+		return self._keys.get(name, default)
 
 SUBCLASSES = SubclassesFile()
 for f in getFiles("subclasses"):
