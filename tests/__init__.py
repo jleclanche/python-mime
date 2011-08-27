@@ -21,7 +21,10 @@ def main():
 	assert mime.aliases() == [u"application/x-javascript", u"text/javascript"]
 
 	mime = MimeType("text/xml")
-	print mime.aliasOf()
+	assert mime.aliasOf() == "application/xml"
+
+	mime = MimeType("text/x-python")
+	assert mime.subClassOf() == [u"application/x-executable", u"text/plain"]
 
 if __name__ == "__main__":
 	main()
