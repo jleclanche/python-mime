@@ -98,7 +98,7 @@ class GlobsFile(object):
 				if "*" not in glob and "?" not in glob and "[" not in glob:
 					self._literals[glob] = mime
 
-				elif glob.startswith("*."):
+				elif glob.startswith("*.") and "cs" not in flags:
 					extension = glob[1:]
 					if "*" not in extension and "?" not in extension and "[" not in extension:
 						self._extensions[extension] = mime
@@ -113,6 +113,8 @@ class GlobsFile(object):
 		_, extension = os.path.splitext(name)
 		if extension in self._extensions:
 			return self._extensions[extension]
+		elif extension.lower() in self._extensions:
+			return self._extensions[extension.lower()]
 
 		matches = []
 		for weight, mime, glob, flags in self._matches:

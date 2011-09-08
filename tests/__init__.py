@@ -18,6 +18,12 @@ u'document texte brut'
 <MimeType: text/x-generic>
 >>> mime.genericMime().name()
 'text/x-generic'
+>>> MimeType.fromName("foo.TXT").name()
+'text/plain'
+>>> MimeType.fromName("foo.C").name()
+'text/x-c++src'
+>>> MimeType.fromName("foo.c").name()
+'text/x-csrc'
 >>> MimeType("text/x-lua").comment()
 u'Lua script'
 >>> MimeType("application/x-does-not-exist")
