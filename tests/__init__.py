@@ -1,33 +1,38 @@
 # -*- coding: utf-8 -*-
+"""
+Tests for python-mime
 
-from mime import MimeType
-
-def main():
-	mime = MimeType.fromName("foo.txt")
-	assert mime.name() == "text/plain"
-	assert mime.comment() == "plain text document"
-	assert mime.comment(lang="fr") == "document texte brut"
-	assert mime.type() == "text"
-	assert mime.subtype() == "plain"
-	assert mime.genericMime() == "text/x-generic"
-
-	mime = MimeType("text/x-lua")
-	assert mime.comment() == "Lua script"
-
-	mime = MimeType("application/x-does-not-exist")
-	assert mime.comment() is None
-
-	mime = MimeType.fromName("foo.mkv")
-	assert mime.name() == "video/x-matroska"
-
-	mime = MimeType("application/javascript")
-	assert mime.aliases() == [u"application/x-javascript", u"text/javascript"]
-
-	mime = MimeType("text/xml")
-	assert mime.aliasOf() == "application/xml"
-
-	mime = MimeType("text/x-python")
-	assert mime.subClassOf() == [u"application/x-executable", u"text/plain"]
+>>> from mime import MimeType
+>>> mime = MimeType.fromName("foo.txt")
+>>> mime.name()
+'text/plain'
+>>> mime.comment()
+u'plain text document'
+>>> mime.comment(lang="fr")
+u'document texte brut'
+>>> mime.type()
+'text'
+>>> mime.subtype()
+'plain'
+>>> mime.genericMime()
+<MimeType: text/x-generic>
+>>> mime.genericMime().name()
+'text/x-generic'
+>>> MimeType("text/x-lua").comment()
+u'Lua script'
+>>> MimeType("application/x-does-not-exist")
+<MimeType: application/x-does-not-exist>
+>>> MimeType("application/x-does-not-exist").comment()
+>>> MimeType.fromName("foo.mkv").name()
+'video/x-matroska'
+>>> MimeType("application/javascript").aliases()
+[u'application/x-javascript', u'text/javascript']
+>>> MimeType("text/xml").aliasOf()
+'application/xml'
+>>> MimeType("text/x-python").subClassOf()
+[<MimeType: application/x-executable>, <MimeType: text/plain>]
+"""
 
 if __name__ == "__main__":
-	main()
+	import doctest
+	doctest.testmod()
