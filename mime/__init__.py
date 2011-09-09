@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+import sys
 
-if os.name == "posix":
-	from .backends.linux import MimeType
-elif os.name == "nt":
+if sys.platform == "win32":
 	from .backends.windows import MimeType
 else:
-	raise NotImplementedError("MimeType not implemented for %r backend" % (os.name))
+	from .backends.xdg import MimeType
