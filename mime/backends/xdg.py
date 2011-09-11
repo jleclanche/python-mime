@@ -19,8 +19,8 @@ from .base import BaseMime
 FREEDESKTOP_NS = "http://www.freedesktop.org/standards/shared-mime-info"
 
 HOME = os.path.expanduser("~")
-XDG_DATA_HOME   = os.environ.get("XDG_DATA_HOME", os.path.join(HOME, ".local", "share"))
-XDG_DATA_DIRS   = set([XDG_DATA_HOME] + os.environ.get("XDG_DATA_DIRS", "/usr/local/share:/usr/share").split(":"))
+XDG_DATA_HOME = os.environ.get("XDG_DATA_HOME", os.path.join(HOME, ".local", "share"))
+XDG_DATA_DIRS = set([XDG_DATA_HOME] + os.environ.get("XDG_DATA_DIRS", "/usr/local/share:/usr/share").split(":"))
 # XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", os.path.join(HOME, ".config"))
 # XDG_CONFIG_DIRS = set([XDG_CONFIG_HOME] + os.environ.get("XDG_CONFIG_DIRS", "/etc/xdg").split(":"))
 # XDG_CACHE_HOME  = os.environ.get("XDG_CACHE_HOME", os.path.join(HOME, ".cache"))
@@ -208,6 +208,16 @@ class MimeType(BaseMime):
 		mime = GLOBS.match(name)
 		if mime:
 			return cls(mime)
+
+	@classmethod
+	def fromContent(cls, name):
+		try:
+			stat = os.stat(name)
+		except IOError:
+			return
+
+		if stat.st_size == 0:
+			return cls(self.ZERO_SIZE)
 
 	def aliases(self):
 		if not self._aliases:

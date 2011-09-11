@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Base MimeType class
 """
@@ -5,6 +6,7 @@ Base MimeType class
 class BaseMime(object):
 	DEFAULT_TEXT = "text/plain"
 	DEFAULT_BINARY = "application/octet-stream"
+	ZERO_SIZE = "application/x-zerosize"
 
 	def __init__(self, mime):
 		self.__name = mime
