@@ -217,7 +217,7 @@ class MimeType(BaseMime):
 			return
 
 		if stat.st_size == 0:
-			return cls(self.ZERO_SIZE)
+			return cls(cls.ZERO_SIZE)
 
 	def aliases(self):
 		if not self._aliases:
