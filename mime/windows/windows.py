@@ -2,7 +2,7 @@
 
 from os.path import splitext
 from _winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
-from .base import BaseMime
+from ..basemime import BaseMime
 
 class MimeType(BaseMime):
 	"""
@@ -15,7 +15,7 @@ class MimeType(BaseMime):
 		if ext is ".":
 			ext = root
 		ext = ext or root
-		
+
 		try:
 			with OpenKey(HKEY_CLASSES_ROOT, ext) as key:
 				try:
@@ -27,16 +27,16 @@ class MimeType(BaseMime):
 				return instance
 		except WindowsError:
 			pass
-	
+
 	def comment(self, lang="en"):
 		if self._comment is None:
 			with OpenKey(HKEY_CLASSES_ROOT, self.__handlekey) as key:
 				self._comment, _ = QueryValueEx(key, "") # (Default)
-		
+
 		return self._comment
-	
+
 	def genericIcon(self):
 		pass
-	
+
 	def parent(self):
 		pass

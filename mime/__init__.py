@@ -4,6 +4,6 @@
 import sys
 
 if sys.platform == "win32":
-	from .backends.windows import MimeType
+	from .windows.mime import MimeType
 else:
-	from .backends.xdg import MimeType
+	from .xdg.mime import MimeType

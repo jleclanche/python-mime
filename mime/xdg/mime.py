@@ -14,7 +14,7 @@ shared mime database package.
 import os
 from fnmatch import fnmatch
 from xml.dom import minidom, XML_NAMESPACE
-from .base import BaseMime
+from ..basemime import BaseMime
 
 FREEDESKTOP_NS = "http://www.freedesktop.org/standards/shared-mime-info"
 
