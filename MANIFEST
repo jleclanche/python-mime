@@ -1,6 +1,7 @@
 mime/__init__.py
 mime/backends/__init__.py
+mime/backends/actions.py
 mime/backends/base.py
-mime/backends/xdg.py
 mime/backends/windows.py
+mime/backends/xdg.py
 setup.py
