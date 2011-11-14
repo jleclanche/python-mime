@@ -38,6 +38,38 @@ u'Lua script'
 'application/xml'
 >>> MimeType("text/x-python").subClassOf()
 [<MimeType: application/x-executable>, <MimeType: text/plain>]
+
+
+Tests for MIME actions
+
+>>> from mime.xdg.actions import ActionsFile
+>>> f = open("mimeapps.list.tmp", "w")
+>>> f.write('''
+... [Added Associations]
+... application/xml=kde4-kate.desktop;
+... audio/x-mpegurl=smplayer2.desktop;kde4-kate.desktop;
+... audio/x-scpls=smplayer2.desktop;;
+... video/x-msvideo=smplayer2.desktop;;;mplayer.desktop;
+...
+... [Default Applications]
+... text/html=google-chrome.desktop
+...
+... [Removed Associations]
+... application/xml=wine-extension-xml.desktop;kde4-kwrite.desktop;wine-extension-txt.desktop;
+... '''
+... )
+>>> f.close()
+>>> mimeapps = ActionsFile()
+>>> mimeapps.parse(f.name)
+>>> assocs = mimeapps.get("Added Associations")
+>>> assocs["video/x-msvideo"]
+['mplayer.desktop', 'smplayer2.desktop']
+>>> assocs["audio/x-scpls"]
+['smplayer2.desktop']
+>>> assocs["audio/x-mpegurl"]
+['kde4-kate.desktop', 'smplayer2.desktop']
+>>> assocs["application/xml"]
+['kde4-kate.desktop']
 """
 
 if __name__ == "__main__":
