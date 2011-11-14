@@ -50,6 +50,7 @@ Tests for MIME actions
 ... audio/x-mpegurl=smplayer2.desktop;kde4-kate.desktop;
 ... audio/x-scpls=smplayer2.desktop;;
 ... video/x-msvideo=smplayer2.desktop;;;mplayer.desktop;
+... text/xml=google-chrome.desktop;
 ...
 ... [Default Applications]
 ... text/html=google-chrome.desktop
@@ -69,7 +70,7 @@ Tests for MIME actions
 >>> assocs["audio/x-mpegurl"]
 ['kde4-kate.desktop', 'smplayer2.desktop']
 >>> assocs["application/xml"]
-['kde4-kate.desktop']
+['google-chrome.desktop', 'kde4-kate.desktop']
 """
 
 if __name__ == "__main__":
