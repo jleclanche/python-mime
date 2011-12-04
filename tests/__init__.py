@@ -38,7 +38,12 @@ u'Lua script'
 'application/xml'
 >>> MimeType("text/x-python").subClassOf()
 [<MimeType: application/x-executable>, <MimeType: text/plain>]
-
+>>> MimeType("application/zip").isInstance("application/zip")
+True
+>>> MimeType("application/x-chrome-extension").isInstance("application/zip")
+True
+>>> MimeType("text/plain").isInstance("application/zip")
+False
 
 Tests for MIME actions
 

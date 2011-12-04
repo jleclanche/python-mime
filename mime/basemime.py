@@ -31,6 +31,9 @@ class BaseMime(object):
 		name = self.name()
 		return name == DEFAULT_BINARY or name == DEFAULT_TEXT
 
+	def isInstance(self, other):
+		return self == other or other in self.subClassOf()
+
 	def name(self):
 		return self.__name
 
