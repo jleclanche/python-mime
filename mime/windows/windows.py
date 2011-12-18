@@ -35,8 +35,5 @@ class MimeType(BaseMime):
 
 		return self._comment
 
-	def genericIcon(self):
-		pass
-
 	def parent(self):
 		pass
