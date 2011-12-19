@@ -82,6 +82,15 @@ Tests for MIME actions
 ['kde4-kate.desktop', 'smplayer2.desktop']
 >>> assocs["application/xml"]
 ['google-chrome.desktop', 'kde4-kate.desktop']
+
+>>> MimeType("text/html").defaultApplication()
+'google-chrome.desktop'
+>>> MimeType("text/html").bestApplication()
+'google-chrome.desktop'
+>>> MimeType("x-scheme-handler/http").bestApplication()
+'google-chrome.desktop'
+>>> MimeType("text/plain").associations()
+['kde4-kate.desktop']
 """
 
 if __name__ == "__main__":
