@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """
 Tests for python-mime
 
+>>> import os
 >>> from mime import MimeType
 >>> mime = MimeType.fromName("foo.txt")
 >>> mime.name()
@@ -57,8 +57,8 @@ Tests for MIME actions
 >>> f = open("mimeapps.list.tmp", "w")
 >>> f.write('''
 ... [Added Associations]
-... application/xml=kde4-kate.desktop;
-... audio/x-mpegurl=smplayer2.desktop;kde4-kate.desktop;
+... application/xml=juffed.desktop;
+... audio/x-mpegurl=smplayer2.desktop;juffed.desktop;
 ... audio/x-scpls=smplayer2.desktop;;
 ... video/x-msvideo=smplayer2.desktop;;;mplayer.desktop;
 ... text/xml=google-chrome.desktop;
@@ -79,9 +79,9 @@ Tests for MIME actions
 >>> assocs["audio/x-scpls"]
 ['smplayer2.desktop']
 >>> assocs["audio/x-mpegurl"]
-['kde4-kate.desktop', 'smplayer2.desktop']
+['juffed.desktop', 'smplayer2.desktop']
 >>> assocs["application/xml"]
-['google-chrome.desktop', 'kde4-kate.desktop']
+['google-chrome.desktop', 'juffed.desktop']
 
 >>> MimeType("text/html").defaultApplication()
 'google-chrome.desktop'
@@ -89,8 +89,10 @@ Tests for MIME actions
 'google-chrome.desktop'
 >>> MimeType("x-scheme-handler/http").bestApplication()
 'google-chrome.desktop'
->>> MimeType("text/plain").associations()
-['kde4-kate.desktop']
+>>> 'juffed.desktop' in MimeType("text/plain").associations()
+True
+
+>>> os.remove(f.name)
 """
 
 if __name__ == "__main__":
