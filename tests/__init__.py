@@ -30,6 +30,8 @@ u'document texte brut'
 >>> MimeType.fromContent("/dev/null").name()
 'inode/chardevice'
 >>> MimeType.fromContent("/").name()
+'inode/mount-point'
+>>> MimeType.fromContent(".").name()
 'inode/directory'
 >>> MimeType("text/x-lua").comment()
 u'Lua script'
