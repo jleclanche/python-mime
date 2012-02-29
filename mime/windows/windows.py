@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+Windows implementation for MimeType
+Uses the Windows Registry to query mimes
+"""
 
 from os.path import splitext
 from _winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
@@ -6,8 +9,7 @@ from ..basemime import BaseMime
 
 class MimeType(BaseMime):
 	"""
-	Windows implementation for MimeType
-	Uses the Windows Registry to query mimes
+	Windows Registry-based MimeType
 	"""
 	@classmethod
 	def fromName(cls, name):
