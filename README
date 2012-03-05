@@ -1,0 +1,31 @@
+python-mime - A proper MIME type library for Python
+
+python-mime implements platform-specific MIME parsing. So far, only the xdg implementation is fully supported.
+There is a minimal windows (winreg-based) implementation.
+
+Usage:
+>>> import mime
+>>> m = mime.MimeType("image/jpeg")
+>>> m.comment()
+u'JPEG image'
+>>> m.aliases()
+[u'image/pjpeg']
+
+It is possible to query MIME types by file name (name-based matching)
+
+>>> mime.MimeType.fromName('myfile.png')
+<MimeType: image/png>
+
+It is also possible to query it by file content with MimeType.fromContent, although this is not fully implemented.
+
+XDG-based MIME types support MIME Actions.
+
+>>> m.associations()
+['qiviewer.desktop', 'firefox.desktop', 'wine-extension-jfif.desktop', 'wine-extension-jpe.desktop']
+
+It is also possible to query the default application associated with a MIME type with defaultApplication().
+There is not always a default application associated with a MIME type. In order to get the most appropriate application
+to open a MIME type with, do:
+
+>>> mime.MimeType.fromName("file.html").bestApplication()
+'google-chrome.desktop'
