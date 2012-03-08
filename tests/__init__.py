@@ -58,6 +58,15 @@ True
 True
 >>> MimeType("text/plain").isInstance("application/zip")
 False
+>>> MimeType.fromScheme("http://example.com").name()
+'x-scheme-handler/http'
+>>> MimeType.fromScheme("ftp://example.com").name()
+'x-scheme-handler/ftp'
+>>> MimeType.fromScheme("mailto:user@example.com").name()
+'x-scheme-handler/mailto'
+>>> MimeType.fromScheme("file:///").name()
+'x-scheme-handler/file'
+
 
 Tests for MIME actions
 

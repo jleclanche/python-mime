@@ -5,6 +5,7 @@ Base MimeType class
 class BaseMime(object):
 	DEFAULT_TEXT = "text/plain"
 	DEFAULT_BINARY = "application/octet-stream"
+	SCHEME_FORMAT = "x-scheme-handler/%s"
 	ZERO_SIZE = "application/x-zerosize"
 
 	def __init__(self, mime):
@@ -19,6 +20,15 @@ class BaseMime(object):
 
 	def __repr__(self):
 		return "<MimeType: %s>" % (self.name())
+
+	@classmethod
+	def fromScheme(cls, uri):
+		from urlparse import urlparse as parse
+		scheme = parse(uri).scheme
+		if not scheme:
+			raise ValueError("%r does not have a scheme or is not a valid URI" % (scheme))
+
+		return cls(cls.SCHEME_FORMAT % (scheme))
 
 	def genericIcon(self):
 		return self.genericMime().name().replace("/", "-")
