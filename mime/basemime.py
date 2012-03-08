@@ -2,6 +2,8 @@
 Base MimeType class
 """
 
+import os
+
 class BaseMime(object):
 	DEFAULT_TEXT = "text/plain"
 	DEFAULT_BINARY = "application/octet-stream"
@@ -20,6 +22,36 @@ class BaseMime(object):
 
 	def __repr__(self):
 		return "<MimeType: %s>" % (self.name())
+
+	@classmethod
+	def fromInode(cls, name):
+		import stat
+		try:
+			mode = os.stat(name).st_mode
+		except IOError:
+			return
+
+		# Test for mount point before testing for inode/directory
+		if os.path.ismount(name):
+			return cls("inode/mount-point")
+
+		if stat.S_ISBLK(mode):
+			return cls("inode/blockdevice")
+
+		if stat.S_ISCHR(mode):
+			return cls("inode/chardevice")
+
+		if stat.S_ISDIR(mode):
+			return cls("inode/directory")
+
+		if stat.S_ISFIFO(mode):
+			return cls("inode/fifo")
+
+		if stat.S_ISLNK(mode):
+			return cls("inode/symlink")
+
+		if stat.S_ISSOCK(mode):
+			return cls("inode/socket")
 
 	@classmethod
 	def fromScheme(cls, uri):
