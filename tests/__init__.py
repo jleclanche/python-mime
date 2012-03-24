@@ -66,6 +66,11 @@ False
 'x-scheme-handler/mailto'
 >>> MimeType.fromScheme("file:///").name()
 'x-scheme-handler/file'
+>>> f = open("test.tmp", "w")
+>>> f.close()
+>>> MimeType.fromContent(f.name).name()
+'application/x-zerosize'
+>>> os.remove(f.name)
 
 
 Tests for MIME actions
