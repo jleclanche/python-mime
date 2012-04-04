@@ -77,7 +77,7 @@ Tests for MIME actions
 
 >>> from mime.xdg.actions import ActionsFile
 >>> f = open("mimeapps.list.tmp", "w")
->>> f.write('''
+>>> _ = f.write('''
 ... [Added Associations]
 ... application/xml=juffed.desktop;
 ... audio/x-mpegurl=smplayer2.desktop;juffed.desktop;
