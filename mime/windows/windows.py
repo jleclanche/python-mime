@@ -4,7 +4,10 @@ Uses the Windows Registry to query mimes
 """
 
 from os.path import splitext
-from _winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
+try:
+	from winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
+except ImportError:
+	from _winreg import HKEY_CLASSES_ROOT, OpenKey, QueryValueEx
 from ..basemime import BaseMime
 
 class MimeType(BaseMime):

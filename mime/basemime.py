@@ -58,8 +58,12 @@ class BaseMime(object):
 
 	@classmethod
 	def fromScheme(cls, uri):
-		from urlparse import urlparse as parse
-		scheme = parse(uri).scheme
+		try:
+			from urllib.parse import urlparse
+		except ImportError:
+			from urlparse import urlparse
+
+		scheme = urlparse(uri).scheme
 		if not scheme:
 			raise ValueError("%r does not have a scheme or is not a valid URI" % (scheme))
 
