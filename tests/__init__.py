@@ -25,7 +25,7 @@ u'document texte brut'
 'text/x-c++src'
 >>> MimeType.fromName("foo.c").name()
 'text/x-csrc'
->>> MimeType.fromInode("/dev/ram0").name()
+>>> MimeType.fromInode("/dev/sda").name()
 'inode/blockdevice'
 >>> MimeType.fromInode("/dev/null").name()
 'inode/chardevice'
