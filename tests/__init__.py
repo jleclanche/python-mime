@@ -8,9 +8,9 @@ Tests for python-mime
 >>> mime.name()
 'text/plain'
 >>> mime.comment()
-u'plain text document'
+'plain text document'
 >>> mime.comment(lang="fr")
-u'document texte brut'
+'document texte brut'
 >>> mime.type()
 'text'
 >>> mime.subtype()
@@ -34,14 +34,14 @@ u'document texte brut'
 >>> MimeType.fromInode(".").name()
 'inode/directory'
 >>> MimeType("text/x-lua").comment()
-u'Lua script'
+'Lua script'
 >>> MimeType("application/x-does-not-exist")
 <MimeType: application/x-does-not-exist>
 >>> MimeType("application/x-does-not-exist").comment()
 >>> MimeType.fromName("foo.mkv").name()
 'video/x-matroska'
 >>> MimeType("application/javascript").aliases()
-[u'application/x-javascript', u'text/javascript']
+['application/x-javascript', 'text/javascript']
 >>> MimeType("text/xml").aliasOf()
 'application/xml'
 >>> MimeType("text/x-python").subClassOf()
