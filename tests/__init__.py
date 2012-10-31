@@ -83,10 +83,10 @@ Tests for MIME actions
 ... audio/x-mpegurl=smplayer2.desktop;juffed.desktop;
 ... audio/x-scpls=smplayer2.desktop;;
 ... video/x-msvideo=smplayer2.desktop;;;mplayer.desktop;
-... text/xml=google-chrome.desktop;
+... text/xml=chromium.desktop;
 ...
 ... [Default Applications]
-... text/html=google-chrome.desktop
+... text/html=chromium.desktop
 ...
 ... [Removed Associations]
 ... application/xml=wine-extension-xml.desktop;kde4-kwrite.desktop;wine-extension-txt.desktop;
@@ -103,14 +103,14 @@ Tests for MIME actions
 >>> assocs["audio/x-mpegurl"]
 ['juffed.desktop', 'smplayer2.desktop']
 >>> assocs["application/xml"]
-['google-chrome.desktop', 'juffed.desktop']
+['chromium.desktop', 'juffed.desktop']
 
 >>> MimeType("text/html").defaultApplication()
-'google-chrome.desktop'
+'chromium.desktop'
 >>> MimeType("text/html").bestApplication()
-'google-chrome.desktop'
+'chromium.desktop'
 >>> MimeType("x-scheme-handler/http").bestApplication()
-'google-chrome.desktop'
+'chromium.desktop'
 >>> 'juffed.desktop' in MimeType("text/plain").associations()
 True
 

@@ -11,7 +11,7 @@ class BaseMime(object):
 	ZERO_SIZE = "application/x-zerosize"
 
 	def __init__(self, mime):
-		self.__name = mime
+		self.__name = str(mime)
 		self._aliases = []
 		self._comment = {}
 
